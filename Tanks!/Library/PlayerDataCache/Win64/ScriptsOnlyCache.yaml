@@ -19,6 +19,8 @@ ScriptsOnlyBuild:
     - TMPro.TMP_SpriteAsset
     - TMPro.TMP_StyleSheet
     - TMPro.TextMeshProUGUI
+    Unity.Timeline.Editor.dll:
+    - TimelineProjectSettings
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -752,7 +754,7 @@ ScriptsOnlyBuild:
     className: TankAim
   - hash:
       serializedVersion: 2
-      Hash: f89ec627f4e8978804269d170b68aea6
+      Hash: 445c711bf6e09f7763a7d74720a86e05
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -1017,4 +1019,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/S213749/Documents/Tanks!_build/Tanks!.exe
+  playerPath: C:/Users/S213749/Documents/Tanks_But_No_Tanks/Tanks!.exe
