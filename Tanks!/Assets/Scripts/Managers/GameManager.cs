@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     public Object m_EnemyTankPrefab;
 
-    public bool m_onCooldown = false;
+    private bool m_onCooldown = false;
 
     private float m_gameTime = 0;
     public float GameTime { get { return m_gameTime; } }
