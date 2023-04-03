@@ -120,7 +120,7 @@ public class HighScores : MonoBehaviour
         {
             // Instead of checking the value of desiredIndex  
             // we could also use 'break' to stop the loop. 
-            if (scores[i] > newScore || scores[i] == 0)
+            if (scores[i] < newScore || scores[i] == 0)
             {
                 desiredIndex = i;
                 break;
