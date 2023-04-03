@@ -1561,6 +1561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 890b4b922f6d4a34ca71415225e3bb91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxEnemies: 10
   m_HighScores: {fileID: 1209799858}
   m_MessageText: {fileID: 486865756}
   m_TimerText: {fileID: 378273093}
@@ -1571,6 +1572,7 @@ MonoBehaviour:
   m_Tanks:
   - {fileID: 1929989587}
   - {fileID: 2133053771}
+  m_EnemyTankPrefab: {fileID: 4742524073129372991, guid: bdc2957bea3ded94181f8fcb0b340fc5, type: 3}
 --- !u!4 &1209799857
 Transform:
   m_ObjectHideFlags: 0

@@ -6,7 +6,8 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public int maxEnemies;
-    
+    public int cooldownLength;
+
     public HighScores m_HighScores;
 
     // Reference to the overlay Text to display winning text, etc 
@@ -20,6 +21,10 @@ public class GameManager : MonoBehaviour
     public Button m_HighScoresButton;
 
     public GameObject[] m_Tanks;
+
+    public Object m_EnemyTankPrefab;
+
+    public bool m_onCooldown = false;
 
     private float m_gameTime = 0;
     public float GameTime { get { return m_gameTime; } }
@@ -79,11 +84,7 @@ public class GameManager : MonoBehaviour
                 m_TimerText.text = string.Format("{0:D2}:{1:D2}",
                           (seconds / 60), (seconds % 60));
 
-                if (OneTankLeft() == true)
-                {
-                    isGameOver = true;
-                }
-                else if (IsPlayerDead() == true)
+                if (IsPlayerDead() == true)
                 {
                     isGameOver = true;
                 }
@@ -96,21 +97,15 @@ public class GameManager : MonoBehaviour
                     m_NewGameButton.gameObject.SetActive(true);
                     m_HighScoresButton.gameObject.SetActive(true);
 
-                    if (IsPlayerDead() == true)
-                    {
-                        m_MessageText.text = "TRY AGAIN";
-                    }
-                    else
-                    {
-                        m_MessageText.text = "WINNER!";
+                    m_MessageText.text = "Game Over";
 
-                        // save the score 
-                        m_HighScores.AddScore(Mathf.RoundToInt(m_gameTime));
-                        m_HighScores.SaveScoresToFile();
-                    }
+                    // save the score 
+                    m_HighScores.AddScore(Mathf.RoundToInt(m_gameTime));
+                    m_HighScores.SaveScoresToFile();
                 }
                 break;
             case GameState.GameOver:
+
                 if (Input.GetKeyUp(KeyCode.Return) == true)
                 {
                     m_gameTime = 0;
@@ -121,26 +116,48 @@ public class GameManager : MonoBehaviour
                     for (int i = 0; i < m_Tanks.Length; i++)
                     {
                         m_Tanks[i].SetActive(true);
+
                     }
                 }
                 break;
         }
+
 
         if (Input.GetKeyUp(KeyCode.Escape))
         {
             Application.Quit();
         }
 
-        //Spawn enemy tanks if there are less than maxEnemies
-        //if (GameState = Playing)
-        //{
-            //if (GameObject.FindGameObjectsWithTag("Enemy").Length > 20)
-            //{
+        //Spawn an enemy tank while gamestate is playing, if there are less than maxEnemies
+        if (m_GameState == GameState.Playing)
+        {
+            if (m_onCooldown == false)
+            {
+                if (GameObject.FindGameObjectsWithTag("Enemy").Length < maxEnemies)
+                {
+                    Instantiate(m_EnemyTankPrefab);
 
-            //}
-        //}
+                    StartCoroutine(CooldownTimer());
+                }
+            }
+
+            //spawn an enemy tank for debug purposes
+            if (Input.GetKeyDown("q"))
+            {
+                Instantiate(m_EnemyTankPrefab);
+            }
+        }
     }
 
+
+    public IEnumerator CooldownTimer()
+    {
+        m_onCooldown = true;
+        yield return new WaitForSeconds(cooldownLength);
+        m_onCooldown = false;
+
+    }
+    
     private bool OneTankLeft()
     {
         int numTanksLeft = 0;
@@ -169,6 +186,7 @@ public class GameManager : MonoBehaviour
 
         return false;
     }
+
     public void OnNewGame()
     {
         m_NewGameButton.gameObject.SetActive(false);
@@ -198,9 +216,8 @@ public class GameManager : MonoBehaviour
         {
             int seconds = m_HighScores.scores[i];
             text += string.Format("{0:D2}:{1:D2}\n",
-(seconds / 60), (seconds % 60));
+            (seconds / 60), (seconds % 60));
         }
         m_HighScoresText.text = text;
     }
-
 }
